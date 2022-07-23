@@ -10,7 +10,6 @@ function App() {
 
   const orderTypeHandler = () => {
     setOrder(!order);
-    console.log(order);
   };
 
   return (
