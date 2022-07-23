@@ -27,9 +27,12 @@ app.post('/todos', async (req, res) => {
 
 //get all todo
 
-app.get('/todos', async (req, res) => {
+app.get('/todos/:sort', async (req, res) => {
+  const { sort } = req.params;
   try {
-    const todos = await pool.query('SELECT * FROM todo ORDER BY todo_id ASC');
+    const todos = await pool.query(
+      `SELECT * FROM todo ORDER BY todo_id ${sort}`
+    );
     res.json(todos.rows);
   } catch (e) {
     res.send(e.message);

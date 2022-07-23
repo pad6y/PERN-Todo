@@ -1,13 +1,24 @@
+import { useState } from 'react';
+
 import InputTodo from './components/InputTodo';
 import ListTodos from './components/ListTodos';
+import SortButton from './components/SortButton';
 import './App.css';
 
 function App() {
+  const [order, setOrder] = useState(true);
+
+  const orderTypeHandler = () => {
+    setOrder(!order);
+    console.log(order);
+  };
+
   return (
     <>
       <div className="container">
         <InputTodo />
-        <ListTodos />
+        <SortButton handler={orderTypeHandler} />
+        <ListTodos sort={order ? 'ASC' : 'DESC'} />
       </div>
     </>
   );

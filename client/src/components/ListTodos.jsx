@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import EditTodos from './EditTodos';
 
-function ListTodos() {
+function ListTodos({ sort }) {
   const [list, setList] = useState([]);
 
-  const getList = async () => {
+  const getList = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/todos');
+      const response = await fetch(`http://localhost:5000/todos/${sort}`);
       const data = await response.json();
       setList(data);
     } catch (error) {
       console.error(error.message);
     }
-  };
+  }, [sort]);
+
   useEffect(() => {
     getList();
-  }, []);
+  }, [getList]);
 
   const deleteTodoHandler = async (id) => {
     try {
@@ -28,7 +29,7 @@ function ListTodos() {
 
   return (
     <>
-      <table className="table mt-5">
+      <table className="table mt-2">
         <thead>
           <tr>
             <th scope="col">ID</th>
