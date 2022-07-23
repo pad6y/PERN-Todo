@@ -17,14 +17,14 @@ function TodosTable({ list, deleteTodo, getList }) {
             ? null
             : list.map((item) => (
                 <tr key={item.todo_id}>
-                  <th scope="row">{item.todo_id}</th>
+                  <th scope="row">{item.todo_id} </th>
                   <td>{item.description}</td>
                   <td>
                     <EditTodos todo={item} getList={getList} />
                   </td>
-                  <td>
+                  <td className="pr-0">
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger float-right"
                       onClick={() => {
                         deleteTodo(item.todo_id);
                       }}

@@ -1,23 +1,31 @@
 import { useState, useEffect, useCallback } from 'react';
 
+import SortButton from './SortButton';
 import TodosTable from './TodosTable';
 
-function ListTodos({ sort }) {
+function ListTodos() {
+  const [order, setOrder] = useState(true);
   const [list, setList] = useState([]);
 
   const getList = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:5000/todos/${sort}`);
+      const response = await fetch(
+        `http://localhost:5000/todos/${order ? 'ASC' : 'DESC'}`
+      );
       const data = await response.json();
       setList(data);
     } catch (error) {
       console.error(error.message);
     }
-  }, [sort]);
+  }, [order]);
 
   useEffect(() => {
     getList();
   }, [getList]);
+
+  const orderTypeHandler = () => {
+    setOrder(!order);
+  };
 
   const deleteTodoHandler = async (id) => {
     try {
@@ -30,6 +38,7 @@ function ListTodos({ sort }) {
 
   return (
     <>
+      <SortButton handler={orderTypeHandler} by={order ? 'DESC' : 'ASC'} />
       <TodosTable
         list={list}
         deleteTodo={deleteTodoHandler}
